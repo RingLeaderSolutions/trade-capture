@@ -1,0 +1,1 @@
+az group deployment create --resource-group edf --template-file trade-capture-containers.json

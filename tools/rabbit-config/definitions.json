@@ -1,0 +1,54 @@
+{
+	"rabbit_version": "3.7.5",
+	"users": [{
+			"name": "guest",
+			"password_hash": "VMgx1oviyxKzYtEw5KskMa0CwLidAuzu5vnPGZjKCmxq0QDM",
+			"hashing_algorithm": "rabbit_password_hashing_sha256",
+			"tags": "administrator"
+		}
+	],
+	"vhosts": [{
+			"name": "/"
+		}, {
+			"name": "EDF.TradeCapture"
+		}
+	],
+	"permissions": [{
+			"user": "guest",
+			"vhost": "EDF.TradeCapture",
+			"configure": ".*",
+			"write": ".*",
+			"read": ".*"
+		}, {
+			"user": "guest",
+			"vhost": "/",
+			"configure": ".*",
+			"write": ".*",
+			"read": ".*"
+		}
+	],
+	"topic_permissions": [],
+	"parameters": [],
+	"global_parameters": [{
+			"name": "cluster_name",
+			"value": "rabbit@dadbb25b2b48"
+		}
+	],
+	"policies": [],
+	"queues": [{
+			"name": "quote_request",
+			"vhost": "EDF.TradeCapture",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		}, {
+			"name": "quote_response",
+			"vhost": "EDF.TradeCapture",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		}
+	],
+	"exchanges": [],
+	"bindings": []
+}

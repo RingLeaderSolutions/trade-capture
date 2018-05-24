@@ -1,0 +1,106 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "containerGroupName": {
+      "type": "string",
+      "defaultValue": "trade-capture-containers",
+      "metadata": {
+        "description": "Container Group name."
+      }
+    }
+  },
+  "variables": {
+    "container1name": "rabbit",
+    "container1image": "rabbitmq:3.7-management",
+    "container2name": "seq",
+    "container2image": "datalust/seq:latest"
+  },
+  "resources": [
+    {
+      "name": "[parameters('containerGroupName')]",
+      "type": "Microsoft.ContainerInstance/containerGroups",
+      "apiVersion": "2018-04-01",
+      "location": "northeurope",
+      "properties": {
+        "containers": [
+          {
+            "name": "[variables('container1name')]",
+            "properties": {
+              "image": "[variables('container1image')]",
+              "resources": {
+                "requests": {
+                  "cpu": 1,
+                  "memoryInGb": 0.5
+                }
+              },
+              "ports": [
+                {
+                  "port": 80
+                },
+                {
+                  "port": 5341
+                }
+              ]
+            }
+          },
+          {
+            "name": "[variables('container2name')]",
+            "properties": {
+              "image": "[variables('container2image')]",
+              "resources": {
+                "requests": {
+                  "cpu": 1,
+                  "memoryInGb": 0.5
+                }
+              },
+              "ports": [
+                {
+                  "port": 5672
+                },
+                {
+                  "port": 15672
+                }
+              ],
+              "environmentVariables": [
+                {
+                  "name": "ACCEPT_EULA",
+                  "value": "Y"
+                }
+              ]
+            }
+          }
+        ],
+        "osType": "Linux",
+        "ipAddress": {
+          "type": "Public",
+          "dnsNameLabel": "[parameters('containerGroupName')]",
+          "ports": [
+            {
+              "protocol": "TCP",
+              "port": "5672"
+            },
+            {
+              "protocol": "TCP",
+              "port": "15672"
+            },
+            {
+              "protocol": "TCP",
+              "port": "80"
+            },
+            {
+              "protocol": "TCP",
+              "port": "5341"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "outputs": {
+    "containerIPv4Address": {
+      "type": "string",
+      "value": "[reference(resourceId('Microsoft.ContainerInstance/containerGroups/', parameters('containerGroupName'))).ipAddress.ip]"
+    }
+  }
+}

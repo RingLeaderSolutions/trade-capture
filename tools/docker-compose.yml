@@ -1,0 +1,24 @@
+version: '3.6'
+
+services:
+    sql-server:
+        image: "microsoft/mssql-server-linux:latest"
+        environment:
+            SA_PASSWORD: 'Qwerty123'
+            ACCEPT_EULA: 'Y'
+        ports:
+            - "1433:1433"
+    rabbit-mq:
+        image: "rabbitmq:3.7-management"
+        ports:           
+            - "5672:5672"
+            - "15672:15672"
+        volumes:
+            - .\rabbit-config:/etc/rabbitmq
+    seq:
+        image: "datalust/seq:latest"
+        environment:
+            ACCEPT_EULA: 'Y'
+        ports:
+            - "89:80"
+            - "5341:5341"

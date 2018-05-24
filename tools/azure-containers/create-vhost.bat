@@ -1,0 +1,1 @@
+rabbitmqadmin declare vhost name=EDF.TradeCapture

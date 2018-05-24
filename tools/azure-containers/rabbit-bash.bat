@@ -1,0 +1,1 @@
+az container exec --resource-group edf --name trade-capture-containers --container-name rabbit --exec-command "/bin/bash"
